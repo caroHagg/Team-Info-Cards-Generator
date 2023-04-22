@@ -1,0 +1,20 @@
+{
+  "name": "team-info-cards-generator",
+  "version": "1.0.0",
+  "description": "testing for team info generator",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test":"jest --verbose test/*"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "inquirer": "^8.2.4",
+    "jest": "^29.5.0"
+  }
+}
