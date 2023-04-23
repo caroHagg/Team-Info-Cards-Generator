@@ -8,9 +8,10 @@ const fs = require("fs");
 const util = require("util");
 const team = [];
 
+//initialize the prompts to user
 const Init = async ()=>{
     try{
-        const infoM = await inquirer.prompt([
+        const info = await inquirer.prompt([
            
             {
                 text:"Input",
@@ -33,10 +34,10 @@ const Init = async ()=>{
                 message:"Enter Manager's Office Number:"
             }
         ]);
-
-        const newManager = new Manager(infoM.name,infoM.id,infoM.email,infoM.officeNumber);
+// creating instance of Manager class, saving it to team list  and calling recursive function 
+        const newManager = new Manager(info.name,info.id,info.email,info.officeNumber);
         team.push(newManager);
-        console.log(newManager);
+       
         teamInputs();
 
     }catch(err){
@@ -44,19 +45,20 @@ const Init = async ()=>{
     }
 }
 
+//recursive async prompt function to add members to team list
 const teamInputs = async()=>{
     try{
         const options = await inquirer.prompt([
             {
-            text:"list",
-            message:"Please choose an option: ",
+            type:"list",
             name:"choice",
-            choice:["add engineer,add intern, finish building team"],
+            message:"Select from the following: ",
+            choices:["add engineer","add intern", "finish building team"],
             }  
         ]);
-
-        if(options === "add engineer"){
-            const infoEng = await inquirer.prompt([
+// Adding engineer
+        if(options.choice === "add engineer"){
+            const info = await inquirer.prompt([
                 {
                     text:"Input",
                     name:"name",
@@ -79,14 +81,15 @@ const teamInputs = async()=>{
                 }
 
             ]);
-            
-            const newEngineer = new Engineer(infoEng.name,infoEng.id,infoEng.email,infoEng.github);
+            //creating instance of Engineer Class and saving it to team list
+            const newEngineer = new Engineer(info.name,info.id,info.email,info.github);
             team.push(newEngineer);
+
             teamInputs();
 
-
-        }else if(options === "add intern"){
-            const infoInt = await inquirer.prompt([
+        
+        }else if(options.choice === "add intern"){
+            const info = await inquirer.prompt([
                 {
                     text:"Input",
                     name:"name",
@@ -108,13 +111,17 @@ const teamInputs = async()=>{
                     message:"Enter Intern's School:"
                 }
 
-            ])
+            ]);
+    //creating instance of Intern Class and saving it to team list
+            const newIntern = new Intern(info.name,info.id,info.email,info.school);
+            team.push(newIntern);
 
             teamInputs();
 
-        }else if(options === "finish building team"){
-            //call 
-
+        }else if(options.choice === "finish building team"){
+            //call generateHtml 
+            const templateHTML = generateHtml(team);
+            
             console.log("Your Team has been created");
         }
 
