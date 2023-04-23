@@ -2,10 +2,12 @@ const Employee =require("./Develop/lib/Employee");
 const Manager = require("./Develop/lib/Manager");
 const Engineer = require("./Develop/lib/Engineer");
 const Intern = require("./Develop/lib/Intern");
-const generateHtml =require("./Develop/util/generateHtml")
+const generateHtml =require("./Develop/util/generateHtml");
+const generateCSS =require("./Develop/util/generateCSS");
 const inquirer = require("inquirer");
 const fs = require("fs");
 const util = require("util");
+const writeFilePromise = util.promisify(fs.writeFile);
 const team = [];
 
 //initialize the prompts to user
@@ -14,12 +16,12 @@ const Init = async ()=>{
         const info = await inquirer.prompt([
            
             {
-                text:"Input",
+                type:"Input",
                 name:"name",
                 message:"Enter Manager's Name:"
             },
             {
-                text:"Input",
+                type:"Input",
                 name:"id",
                 message:"Enter Manager's Id:"
             },
@@ -29,7 +31,7 @@ const Init = async ()=>{
                 message:"Enter Manager's Email:"
             },
             {
-                text:"Input",
+                type:"Input",
                 name:"officeNumber",
                 message:"Enter Manager's Office Number:"
             }
@@ -60,22 +62,22 @@ const teamInputs = async()=>{
         if(options.choice === "add engineer"){
             const info = await inquirer.prompt([
                 {
-                    text:"Input",
+                    type:"Input",
                     name:"name",
                     message:"Enter Engineer's Name:"
                 },
                 {
-                    text:"Input",
+                    type:"Input",
                     name:"id",
                     message:"Enter Engineer's Id:"
                 },
                 {
-                    text:"Input",
+                    type:"Input",
                     name:"email",
                     message:"Enter Engineer's Email:"
                 },
                 {
-                    text:"Input",
+                    type:"Input",
                     name:"github",
                     message:"Enter Engineer's Github Username:"
                 }
@@ -91,22 +93,22 @@ const teamInputs = async()=>{
         }else if(options.choice === "add intern"){
             const info = await inquirer.prompt([
                 {
-                    text:"Input",
+                    type:"Input",
                     name:"name",
                     message:"Enter Intern's Name:"
                 },
                 {
-                    text:"Input",
+                    type:"Input",
                     name:"id",
                     message:"Enter Intern's Id:"
                 },
                 {
-                    text:"Input",
+                    type:"Input",
                     name:"email",
                     message:"Enter Intern's Email:"
                 },
                 {
-                    text:"Input",
+                    type:"Input",
                     name:"school",
                     message:"Enter Intern's School:"
                 }
@@ -119,9 +121,12 @@ const teamInputs = async()=>{
             teamInputs();
 
         }else if(options.choice === "finish building team"){
-            //call generateHtml 
+            //call generateHtml class
             const templateHTML = generateHtml(team);
-            
+            const templateCSS = generateCSS();
+            await writeFilePromise("./Develop/dist/team.html",templateHTML);
+            await writeFilePromise("./Develop/dist/style.css", templateCSS);
+
             console.log("Your Team has been created");
         }
 
