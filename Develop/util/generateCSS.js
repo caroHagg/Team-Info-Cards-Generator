@@ -1,7 +1,9 @@
+//adding style to the HTML file
 const generateCSS = () =>{
     return `
+    
     .team-heading{
-        background:lightcoral; 
+        background:#0B3F30; 
         color:white;
     }
     .employee-card{
@@ -9,15 +11,15 @@ const generateCSS = () =>{
         box-shadow: 6px 6px #ccc;
     }
     .card-header{
-        background:blue;
+        background:#dd802c;
         color:white;
     }
     .card-body{
-        background: #f9f5f5;
+        background: #dadfe1;
     }
     .team-area{
         flex-wrap: wrap;
-    }
+    }   
     
     `
 }
