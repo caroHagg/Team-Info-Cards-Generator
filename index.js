@@ -16,30 +16,61 @@ const Init = async ()=>{
         const info = await inquirer.prompt([
            
             {
-                type:"Input",
+                type:"input",
                 name:"name",
                 message:"Enter Manager's Name:"
             },
             {
-                type:"Input",
+                type:"input",
                 name:"id",
-                message:"Enter Manager's Id:"
+                message:"Enter Manager's Id:",
+                //validate for numbers
+                validate(id){
+                    if(!isNaN(id)){
+                        return true;
+                    }else{
+                        console.log(`\n Please enter a valid Id number`);
+
+                        return false;
+                    }
+
+                }
             },
             {
-                text:"Input",
+                text:"input",
                 name:"email",
-                message:"Enter Manager's Email:"
+                message:"Enter Manager's Email:",
+                //validation email
+                validate(email){
+                    const format = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+                    if(email.match(format)){
+                        return true;
+                    }else{
+                        console.log(`\nEnter a valid email address`);
+                    }
+                }
+        
             },
             {
-                type:"Input",
+                type:"input",
                 name:"officeNumber",
-                message:"Enter Manager's Office Number:"
+                message:"Enter Manager's Office Number:",
+                validate(officeNumber){
+                    if(!isNaN(officeNumber)){
+                        return true;
+                    }else{
+                        console.log(`\n Please enter a valid office number`);
+
+                        return false;
+                    }
+
+                }
             }
         ]);
-// creating instance of Manager class, saving it to team list  and calling recursive function 
+// creating instance of Manager class, saving it to team list  
         const newManager = new Manager(info.name,info.id,info.email,info.officeNumber);
         team.push(newManager);
-       
+       //calling recursive function 
         teamInputs();
 
     }catch(err){
@@ -55,29 +86,48 @@ const teamInputs = async()=>{
             type:"list",
             name:"choice",
             message:"Select from the following: ",
-            choices:["add engineer","add intern", "finish building team"],
+            choices:["Add Engineer","Add Intern", "Finish Building Team"],
             }  
         ]);
 // Adding engineer
-        if(options.choice === "add engineer"){
+        if(options.choice === "Add Engineer"){
             const info = await inquirer.prompt([
                 {
-                    type:"Input",
+                    type:"input",
                     name:"name",
                     message:"Enter Engineer's Name:"
                 },
                 {
-                    type:"Input",
+                    type:"input",
                     name:"id",
-                    message:"Enter Engineer's Id:"
+                    message:"Enter Engineer's Id:",
+                    validate(id){
+                        if(!isNaN(id)){
+                            return true;
+                        }else{
+                            console.log(`\n Please enter a valid Id number`);
+    
+                            return false;
+                        }
+    
+                    }
+                   
                 },
                 {
-                    type:"Input",
+                    type:"input",
                     name:"email",
-                    message:"Enter Engineer's Email:"
+                    message:"Enter Engineer's Email:",
+                    validate(email){
+                        const format = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+                        if(email.match(format)){
+                            return true;
+                        }else{
+                            console.log(`\nEnter a valid email address`);
+                        }
+                    }
                 },
                 {
-                    type:"Input",
+                    type:"input",
                     name:"github",
                     message:"Enter Engineer's Github Username:"
                 }
@@ -90,25 +140,44 @@ const teamInputs = async()=>{
             teamInputs();
 
         
-        }else if(options.choice === "add intern"){
+        }else if(options.choice === "Add Intern"){
             const info = await inquirer.prompt([
                 {
-                    type:"Input",
+                    type:"input",
                     name:"name",
                     message:"Enter Intern's Name:"
                 },
                 {
-                    type:"Input",
+                    type:"input",
                     name:"id",
-                    message:"Enter Intern's Id:"
+                    message:"Enter Intern's Id:",
+                    validate(id){
+                        if(!isNaN(id)){
+                            return true;
+                        }else{
+                            console.log(`\n Please enter a valid Id number`);
+    
+                            return false;
+                        }
+    
+                    }
+                   
                 },
                 {
-                    type:"Input",
+                    type:"input",
                     name:"email",
-                    message:"Enter Intern's Email:"
+                    message:"Enter Intern's Email:",
+                    validate(email){
+                        const format = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+                        if(email.match(format)){
+                            return true;
+                        }else{
+                            console.log(`\nEnter a valid email address`);
+                        }
+                    }
                 },
                 {
-                    type:"Input",
+                    type:"input",
                     name:"school",
                     message:"Enter Intern's School:"
                 }
@@ -120,7 +189,7 @@ const teamInputs = async()=>{
 
             teamInputs();
 
-        }else if(options.choice === "finish building team"){
+        }else if(options.choice === "Finish Building Team"){
             //call generateHtml class
             const templateHTML = generateHtml(team);
             const templateCSS = generateCSS();
